@@ -111,6 +111,10 @@
     .sample:hover{border-color:var(--teal);box-shadow:0 10px 24px rgba(7,22,50,.08)}
     .sample strong{display:block;color:var(--green);font-size:13px}
     .sample span{display:block;margin-top:5px;color:var(--muted);font-size:12px;line-height:1.35}
+    .doc-files{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+    .doc-link{border:1px solid var(--line);border-radius:8px;background:#f8fbfc;color:var(--text);padding:10px;text-decoration:none;font-size:12px;font-weight:850;display:flex;justify-content:space-between;gap:8px;align-items:center}
+    .doc-link:hover{border-color:var(--brand);background:#f1f8f6}
+    .doc-link span{color:var(--muted);font-weight:800}
     .progress-card{display:grid;gap:14px}
     .bar{height:15px;border-radius:999px;background:#dce7ee;overflow:hidden;border:1px solid #cbd8df}
     .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--brand));transition:width .55s ease}
@@ -222,42 +226,52 @@
       ["EXP-2024-0854","Grupo Inditex","Casablanca","Valencia","En Revisión","4/7","Hapag-Lloyd · DUA-2024-12077"]
     ];
     const rows = [
-      ["001","Pantalón cargo hombre azul M","245 uds","€12,40","€3.038,00"],
-      ["002","Pantalón cargo hombre azul L","312 uds","€12,40","€3.868,80"],
-      ["003","Pantalón cargo hombre negro M","189 uds","€12,40","€2.343,60"],
-      ["004","Pantalón cargo mujer beige S","168 uds","€11,80","€1.982,40"],
-      ["005","Pantalón trekking gris XL","333 uds","€12,70","€4.229,10"],
-      ["006","Camisa técnica manga corta M","286 uds","€10,20","€2.917,20"],
-      ["007","Camisa técnica manga corta L","304 uds","€10,20","€3.100,80"],
-      ["008","Camisa algodón logística XL","244 uds","€12,94","€3.157,20"],
-      ["009","Calcetines running pack 3","2100 uds","€2,00","€4.200,00"],
-      ["010","Ropa interior térmica hombre","650 uds","€6,00","€3.900,00"],
-      ["011","Zapatilla trail mujer 39","122 uds","€28,00","€3.416,00"],
-      ["012","Zapatilla trail hombre 42","188 uds","€28,00","€5.264,00"],
-      ["013","Mochila urbana 22L","80 uds","€12,00","€960,00"],
-      ["014","Gorra protección solar","70 uds","€4,80","€336,00"],
-      ["015","Cinturón trekking negro","30 uds","€28,80","€864,00"]
+      ["T240002","P23001307","28 bx","9.470 un","343,45 kg","371,45 kg"],
+      ["T240003","P23001307","25 bx","8.546 un","309,91 kg","334,90 kg"],
+      ["T240004","P23001308","77 bx","1.508 un","1.227,11 kg","1.304,11 kg"],
+      ["T240005","P23001343","1 bx","1.413 un","8,80 kg","9,30 kg"],
+      ["T240007","P23001346","2 bx","1.852 un","36,10 kg","37,10 kg"],
+      ["T240008","P23001347","1 bx","1.142 un","25,70 kg","26,20 kg"],
+      ["T240012","P23001333","54 bx","3.220 mt","1.044,80 kg","1.061,00 kg"],
+      ["T240013","P23001267","23 bx","1.155,18 mt","518,00 kg","525,00 kg"],
+      ["T240014","P23001291","28 bx","8.200 mt","170,20 kg","178,60 kg"],
+      ["T240015","P23001264","15 bx","2.424 mt","305,50 kg","310,00 kg"],
+      ["T240016","P23001290","87 bx","6.943 mt","1.606,90 kg","1.633,00 kg"],
+      ["T240017","P23001354","1 bx","402 mt","4,87 kg","5,37 kg"],
+      ["T240018","P24000003","1 bx","1.167 un","6,88 kg","7,38 kg"],
+      ["T240020","P23001325","1 bx","5.250 un","174,50 kg","187,00 kg"],
+      ["T240023","P23001290","25 bx","9.501 mt","203,90 kg","211,40 kg"]
     ];
     const summary = [
-      ["Pantalones","1.247 uds","€15.462,80"],
-      ["Camisas","834 uds","€9.175,20"],
-      ["Calcetines","2.100 uds","€4.200,00"],
-      ["Ropa Interior","650 uds","€3.900,00"],
-      ["Calzado","310 uds","€8.680,00"],
-      ["Accesorios","180 uds","€2.160,00"],
-      ["TOTAL","5.321 uds","€43.578,00"]
+      ["600622","286 bx · 5.102,90 kg neto","€60.304,86"],
+      ["611790","118 bx · 1.143,46 kg neto","€37.997,44"],
+      ["610462","77 bx · 1.227,11 kg neto","€19.681,56"],
+      ["600632","104 bx · 2.100,70 kg neto","€17.488,42"],
+      ["1201244","50 bx · 909,00 kg neto","€9.136,77"],
+      ["600634","27 bx · 412,90 kg neto","€7.002,60"],
+      ["40021910","37 bx · 468,52 kg neto","€2.487,37"],
+      ["TOTAL","717 bx · 11.681,14 kg neto","€156.163,71"]
     ];
     const processSteps = [
       [15,"Analizando estructura del documento..."],
-      [40,"Detectando idioma: Francés (FR)"],
-      [65,"Extrayendo líneas de producto (847 encontradas)..."],
-      [85,"Consolidando grupos por categoría..."],
-      [100,"Extracción completada — 6 grupos identificados"]
+      [40,"Detectando idioma: Portugués / Francés técnico"],
+      [65,"Extrayendo albaranes y bultos (43 líneas útiles)..."],
+      [85,"Cruzando factura, packing list y partidas arancelarias..."],
+      [100,"Extracción completada — 8 partidas consolidadas"]
     ];
     const samples = [
-      ["Factura Comercial — Decathlon (FR)","847 líneas · Proveedor DEC-FR-2024","Francés (FR)"],
-      ["Factura Proveedor Turco — Textiles (TR)","1.203 líneas · Incoterm FOB Estambul","Turco (TR)"],
-      ["Manifiesto de Carga — Maersk (EN)","412 líneas · B/L-MAEU-478221","Inglés (EN)"]
+      ["Set DUA Pocargil — factura + packing","43 líneas · 717 bultos · €156.163,71","Portugués / Francés"],
+      ["Factura.pdf — extracción OCR","11 páginas · encomienda, albarán, código aduanero e importe","PDF real"],
+      ["Albarán T240003 — packing list","25 bultos · 8.546 un · 334,90 kg bruto","PDF real"],
+      ["Excel resumen — partidas DUA","Partidas 600622, 611790, 610462 y más","XLSX real"]
+    ];
+    const sampleFiles = [
+      ["Factura.pdf","976 KB","transbull-samples/Factura.pdf"],
+      ["albaran-1.pdf","168 KB","transbull-samples/albaran-1.pdf"],
+      ["albaran-2.pdf","147 KB","transbull-samples/albaran-2.pdf"],
+      ["albaran-3.pdf","219 KB","transbull-samples/albaran-3.pdf"],
+      ["albaran-modelo.xlsx","11 KB","transbull-samples/albaran-modelo.xlsx"],
+      ["factura-pocargil.xlsx","43 KB","transbull-samples/factura-pocargil.xlsx"]
     ];
 
     $("#loginForm").addEventListener("submit", e => {
@@ -353,15 +367,16 @@
       $("#extractor").innerHTML = `
         <div id="extractStart" class="view active">
           <div class="panel">
-            <div class="section-head"><div><h3>Extractor OCR/IA</h3><p>El demo acepta cualquier archivo y simula lectura documental sin llamadas externas.</p></div><span class="badge process">Motor IA · Simulado</span></div>
+            <div class="section-head"><div><h3>Extractor OCR/IA</h3><p>El demo acepta cualquier archivo y usa documentos reales de prueba para simular la preparación de datos de DUA.</p></div><span class="badge process">Motor IA · Simulado</span></div>
             <div id="drop" class="upload">
-              <div><strong>Arrastra aquí tus facturas PDF o haz clic para seleccionar</strong><span>Factura comercial, DUA, manifiesto de carga, certificado de origen o packing list.</span></div>
+              <div><strong>Arrastra aquí factura, albaranes o Excel de DUA</strong><span>Factura comercial, packing list, albarán, modelo Excel o resumen por partida arancelaria.</span></div>
             </div>
             <div class="samples">${samples.map((s,i) => `<button class="sample" data-sample="${i}"><strong>${s[0]}</strong><span>${s[1]}</span></button>`).join("")}</div>
+            <div class="doc-files">${sampleFiles.map(f => `<a class="doc-link" href="${f[2]}" download><strong>${f[0]}</strong><span>${f[1]}</span></a>`).join("")}</div>
           </div>
         </div>
         <div id="extractProcessing" class="panel progress-card hidden">
-          <div class="section-head"><div><h3>Procesando documento</h3><p id="fileName">Factura Comercial — Decathlon (FR)</p></div><span class="badge process">OCR + clasificación</span></div>
+          <div class="section-head"><div><h3>Procesando documento</h3><p id="fileName">Set DUA Pocargil — factura + packing</p></div><span class="badge process">OCR + clasificación</span></div>
           <div class="bar"><span id="bar"></span></div>
           <div class="step-line"><span id="stepText">Preparando lectura...</span><span id="stepPct">0%</span></div>
         </div>
@@ -378,19 +393,19 @@
     function resultsMarkup(){
       return `<div class="grid two">
         <div class="panel">
-          <div class="section-head"><div><h3>Documento Original (simulado)</h3><p>Factura Comercial — Decathlon SA · 847 líneas</p></div></div>
+          <div class="section-head"><div><h3>Documento Original (simulado)</h3><p>Factura Pocargil + packing list · datos reales de prueba</p></div></div>
           <div class="pdf-sim">
-            <div class="pdf-title">COMMERCIAL INVOICE DEC-FR-2024 · Port of Loading: Marsella · Port of Discharge: Algeciras</div>
-            <table class="compact"><tbody>${rows.map(r => `<tr><td>Línea ${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</tbody></table>
+            <div class="pdf-title">CONFECTION POCARGIL SARL · Packing / Factura · Origen: Tanger Internas · Destino: Algeciras</div>
+            <table class="compact"><thead><tr><th>Albarán</th><th>Encomienda</th><th>Bultos</th><th>Cantidad</th><th>Peso neto</th><th>Peso bruto</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join("")}</tbody></table>
           </div>
         </div>
         <div class="panel">
           <div class="section-head"><div><h3>Datos Extraídos y Consolidados (IA)</h3><p>Agrupación por categoría para despacho aduanero y expediente.</p></div></div>
           ${summaryTable()}
           <div class="facts">
-            <div class="fact"><span>Idioma detectado</span><strong>Francés (FR)</strong></div>
-            <div class="fact"><span>Proveedor</span><strong>Decathlon SA · DEC-FR-2024</strong></div>
-            <div class="fact"><span>Confianza</span><strong>98,4%</strong></div>
+            <div class="fact"><span>Idioma detectado</span><strong>Portugués / Francés técnico</strong></div>
+            <div class="fact"><span>Proveedor</span><strong>Confection Pocargil SARL · Tanger</strong></div>
+            <div class="fact"><span>Confianza</span><strong>98,7%</strong></div>
           </div>
           <div class="ready">✓ Listo para exportar</div>
           <div class="toolbar" style="margin-top:14px">
@@ -402,7 +417,7 @@
       </div>`;
     }
     function summaryTable(){
-      return `<table><thead><tr><th>Categoría</th><th>Cantidad Total</th><th>Valor Total</th></tr></thead><tbody>${summary.map((r,i) => `<tr class="${i===summary.length-1?"summary-row":""}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table>`;
+      return `<table><thead><tr><th>Partida arancelaria</th><th>Bultos / peso neto</th><th>Importe factura</th></tr></thead><tbody>${summary.map((r,i) => `<tr class="${i===summary.length-1?"summary-row":""}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table>`;
     }
     async function runExtraction(name){
       state.processed = false;
@@ -424,12 +439,12 @@
       $("#extractProcessing").classList.add("hidden");
       $("#extractResults").classList.remove("hidden");
       bindResultActions();
-      showToast("Extracción completada — 6 grupos identificados");
+      showToast("Extracción completada — 8 partidas consolidadas");
     }
     function bindResultActions(){
       $$("[data-action]").forEach(btn => btn.addEventListener("click", () => {
         if (btn.dataset.action === "export") exportCSV();
-        if (btn.dataset.action === "assign") showToast("Documento asignado al Expediente EXP-2024-0847");
+        if (btn.dataset.action === "assign") showToast("Documento asignado al Expediente EXP-2024-0849");
         if (btn.dataset.action === "reset") renderExtractor();
       }));
     }
@@ -465,21 +480,21 @@
       if (state.tab === "historial") return `<div class="timeline">${[
         ["14:32","Factura recibida por email (irma@transbull.es)"],
         ["14:33","Documento enviado al extractor IA"],
-        ["14:35","Extracción completada (98,4% confianza)"],
+        ["14:35","Extracción completada (98,7% confianza)"],
         ["14:36","Datos verificados por operador"],
         ["14:37","Expediente actualizado"]
       ].map(x => `<div class="event"><time>${x[0]}</time><div>${x[1]}</div></div>`).join("")}</div>`;
       setTimeout(bindResultActions);
       return `<table><thead><tr><th>Documento</th><th>Estado</th><th>Resultado</th></tr></thead><tbody>
-        <tr><td>Factura Comercial</td><td>${statusBadge("Completado")}</td><td>847 líneas → 6 grupos</td></tr>
-        <tr><td>Bill of Lading</td><td>${statusBadge("Completado")}</td><td>B/L-MAEU-478221 validado</td></tr>
-        <tr><td>Certificado de Origen</td><td>${statusBadge("En Revisión")}</td><td>Pendiente aforo documental</td></tr>
-        <tr><td>Packing List</td><td>${statusBadge("En Proceso")}</td><td>Lectura de bultos y pesos</td></tr>
+        <tr><td>Factura Comercial Pocargil</td><td>${statusBadge("Completado")}</td><td>43 líneas → 8 partidas DUA</td></tr>
+        <tr><td>Packing List T240003</td><td>${statusBadge("Completado")}</td><td>25 bultos · 8.546 un · 334,90 kg bruto</td></tr>
+        <tr><td>Albaranes PDF</td><td>${statusBadge("En Revisión")}</td><td>3 documentos contrastados contra Excel</td></tr>
+        <tr><td>Modelo Excel de Albarán</td><td>${statusBadge("En Proceso")}</td><td>Normalización de pesos y unidades</td></tr>
       </tbody></table>`;
     }
     function renderExportaciones(){
       $("#exportaciones").innerHTML = `<div class="grid">
-        <div class="export-card"><div><h3>Transbull_EXP-2024-0847_Extraccion.csv</h3><p>Expediente EXP-2024-0847 · Decathlon SA · categorías consolidadas para Excel.</p></div><button class="btn primary" data-export-main>Descargar CSV</button></div>
+        <div class="export-card"><div><h3>Transbull_EXP-2024-0849_DUA_Pocargil.csv</h3><p>Expediente EXP-2024-0849 · Grupo Inditex · partidas arancelarias consolidadas para DUA.</p></div><button class="btn primary" data-export-main>Descargar CSV</button></div>
         <div class="panel"><div class="section-head"><div><h3>Historial de exportaciones</h3><p>Los registros aparecen durante esta sesión de demo.</p></div></div><div id="exportHistory" class="empty">Aún no se han generado descargas en esta sesión.</div></div>
       </div>`;
       $("[data-export-main]").addEventListener("click", exportCSV);
@@ -495,7 +510,7 @@
     function renderConfig(){
       $("#configuracion").innerHTML = `<div class="grid two">
         <div class="panel"><div class="section-head"><div><h3>Reglas IA</h3><p>Parámetros simulados para clasificación documental.</p></div></div>
-          <div class="grid"><label>Umbral de confianza<input value="96%" /></label><label>Cola prioritaria<input value="ETA < 24h, canal naranja, perecedero reefer" /></label><label>Plantilla CSV<input value="Expediente, Cliente, Fecha, Agente, Categoría, Cantidad, Valor" /></label></div>
+          <div class="grid"><label>Umbral de confianza<input value="96%" /></label><label>Cola prioritaria<input value="ETA < 24h, canal naranja, perecedero reefer" /></label><label>Plantilla CSV<input value="Expediente, Cliente, Fecha, Agente, Partida, Bultos/Peso, Importe" /></label></div>
         </div>
         <div class="panel"><div class="section-head"><div><h3>Integraciones simuladas</h3><p>Sin backend ni llamadas reales durante la demo.</p></div></div>
           <table><tbody><tr><td>Correo operaciones</td><td><span class="badge done">Simulado</span></td></tr><tr><td>Gestor DUA</td><td><span class="badge process">Mock activo</span></td></tr><tr><td>Export Excel</td><td><span class="badge done">Blob local</span></td></tr></tbody></table>
@@ -506,19 +521,20 @@
       showToast('<span class="spinner"></span> Generando archivo...');
       setTimeout(() => {
         const meta = [
-          ["Expediente","EXP-2024-0847"],
-          ["Cliente","Decathlon SA"],
+          ["Expediente","EXP-2024-0849"],
+          ["Cliente","Grupo Inditex / Zara"],
           ["Fecha",new Date().toLocaleDateString("es-ES")],
           ["Agente","Irma Gutiérrez"],
+          ["Proveedor","Confection Pocargil SARL"],
           [],
-          ["Categoría","Cantidad Total","Valor Total"],
+          ["Partida arancelaria","Bultos / peso neto","Importe factura"],
           ...summary
         ];
         const csv = meta.map(r => r.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(";")).join("\n");
         const blob = new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8"});
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "Transbull_EXP-2024-0847_Extraccion.csv";
+        a.download = "Transbull_EXP-2024-0849_DUA_Pocargil.csv";
         document.body.appendChild(a);
         a.click();
         a.remove();
