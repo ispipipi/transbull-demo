@@ -164,6 +164,21 @@
     .spinner{width:17px;height:17px;border-radius:50%;border:2px solid rgba(255,255,255,.5);border-top-color:white;display:inline-block;animation:spin .8s linear infinite}
     .export-card{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:8px;padding:14px}
     .export-card p{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .export-workbench{display:grid;grid-template-columns:.9fr 1.1fr;gap:14px;align-items:start}
+    .export-pack{border:1px solid var(--line);border-radius:8px;background:#fff;padding:16px;box-shadow:var(--shadow)}
+    .export-pack h3{font-size:18px;margin-bottom:6px}
+    .export-pack p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .export-steps{display:grid;gap:8px;margin-top:12px}
+    .export-step{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;background:#f8fbfc;padding:10px;color:var(--muted);font-size:13px}
+    .export-step i{display:grid;place-items:center;width:26px;height:26px;border-radius:999px;background:#e4edf2;color:#617283;font-style:normal;font-weight:950;font-size:12px}
+    .export-step.active{border-color:#80c7de;background:#eef9fc;color:var(--text)}
+    .export-step.active i{background:var(--teal);color:white}
+    .export-step.done{border-color:#9bdfb3;background:#eefbf3;color:#166534}
+    .export-step.done i{background:#166534;color:white}
+    .export-preview{border:1px solid var(--line);border-radius:8px;background:#fff;padding:16px;box-shadow:var(--shadow)}
+    .validation-list{display:grid;gap:8px;margin-top:10px}
+    .validation-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;background:#f8fbfc;padding:10px;font-size:13px}
+    .csv-box{border:1px solid var(--line);border-radius:8px;background:#061126;color:#e7f8ef;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;overflow:auto;max-height:185px}
     .empty{border:1px dashed #b6c6d0;border-radius:8px;padding:20px;text-align:center;color:var(--muted);background:#fbfdff}
     @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
     @keyframes toastIn{from{opacity:0;transform:translate(14px,8px)}to{opacity:1;transform:translate(0,0)}}
@@ -174,7 +189,7 @@
       .sidebar{position:fixed;left:0;top:0;z-index:30;transform:translateX(-102%);transition:.22s ease;width:286px}
       .sidebar.open{transform:translateX(0)}
       .main{padding:72px 16px 22px}
-      .four,.three,.two,.flow,.samples,.processing-grid,.info-grid,.facts,.explain-grid{grid-template-columns:1fr}
+      .four,.three,.two,.flow,.samples,.processing-grid,.export-workbench,.info-grid,.facts,.explain-grid{grid-template-columns:1fr}
       .topbar{display:grid}
       .clock{text-align:left;min-width:0}
     }
@@ -215,7 +230,7 @@
           <h2 id="title">Dashboard</h2>
           <p class="sub" id="subtitle">Centro de control para expedientes marítimos, documentación aduanera y extracción inteligente de facturas.</p>
         </div>
-        <div class="clock"><strong id="clock">--:--</strong><span>Operaciones · Puerto de Algeciras</span></div>
+        <div class="clock"><strong id="clock">--:--</strong><span>Hora España peninsular · Puerto de Algeciras</span></div>
       </div>
       <section id="dashboard" class="view active"></section>
       <section id="extractor" class="view"></section>
@@ -332,7 +347,13 @@
       animateKPIs();
     }
     function tickClock(){
-      $("#clock").textContent = new Intl.DateTimeFormat("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(new Date());
+      $("#clock").textContent = new Intl.DateTimeFormat("es-ES",{timeZone:"Europe/Madrid",hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(new Date());
+    }
+    function spainTime(){
+      return new Intl.DateTimeFormat("es-ES",{timeZone:"Europe/Madrid",hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(new Date());
+    }
+    function spainDate(){
+      return new Intl.DateTimeFormat("es-ES",{timeZone:"Europe/Madrid",day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date());
     }
     function renderNav(){
       $("#nav").innerHTML = navItems.map(([id,icon,label]) => `<button class="${state.view===id?"active":""}" data-view="${id}"><span class="ico">${icon}</span><span>${label}</span></button>`).join("");
@@ -560,10 +581,46 @@
     }
     function renderExportaciones(){
       $("#exportaciones").innerHTML = `<div class="grid">
-        <div class="export-card"><div><h3>Transbull_EXP-2024-0849_DUA_Pocargil.csv</h3><p>Expediente EXP-2024-0849 · Grupo Inditex · partidas arancelarias consolidadas para DUA.</p></div><button class="btn primary" data-export-main>Descargar CSV</button></div>
-        <div class="panel"><div class="section-head"><div><h3>Historial de exportaciones</h3><p>Los registros aparecen durante esta sesión de demo.</p></div></div><div id="exportHistory" class="empty">Aún no se han generado descargas en esta sesión.</div></div>
+        <div class="grid four">
+          ${metric("Partidas DUA",8,"Códigos arancelarios consolidados desde factura y packing.")}
+          ${metric("Bultos Validados",717,"Total contrastado contra albaranes y Excel.")}
+          ${metric("Peso Neto",11681.14,"Kilogramos listos para declaración."," kg")}
+          ${metric("Valor Factura",156163.71,"Importe agregado para control documental."," €")}
+        </div>
+        <div class="export-workbench">
+          <div class="export-pack">
+            <div class="section-head"><div><h3>Paquete de exportación DUA</h3><p>Simula lo que verá operaciones antes de entregar el archivo a aduanas o al gestor documental.</p></div><span class="badge process">Hora España: ${spainTime()}</span></div>
+            <div class="facts">
+              ${fact("Expediente","EXP-2024-0849")}
+              ${fact("Cliente","Grupo Inditex / Zara")}
+              ${fact("Proveedor","Confection Pocargil SARL")}
+            </div>
+            <div class="toolbar" style="margin-top:12px">
+              <button class="btn primary" data-export-flow>Simular generación completa</button>
+              <button class="btn gold" data-export-main>Descargar CSV ahora</button>
+              <a class="btn ghost" href="transbull-samples/factura-pocargil.xlsx" download>Descargar Excel base</a>
+            </div>
+            <div class="export-steps" id="exportSteps">
+              ${["Validar partidas arancelarias","Comprobar bultos y pesos","Construir CSV con metadata","Registrar exportación"].map((s,i) => `<div class="export-step" data-export-step="${i}"><i>${i + 1}</i><strong>${s}</strong><span class="badge pending">pendiente</span></div>`).join("")}
+            </div>
+            <div class="live-log" id="exportLog" style="margin-top:12px">Listo para generar paquete DUA con horario de España.</div>
+          </div>
+          <div class="export-preview">
+            <div class="section-head"><div><h3>Vista previa del archivo exportado</h3><p>Contenido que se descarga como CSV compatible con Excel.</p></div><span class="badge done">Separador ; · UTF-8</span></div>
+            <div class="csv-box">${csvPreview()}</div>
+            <div class="validation-list">
+              <div class="validation-row"><strong>Partidas detectadas: 600622, 611790, 610462, 600632...</strong><span class="badge done">OK</span></div>
+              <div class="validation-row"><strong>Total bultos: 717 bx · peso neto 11.681,14 kg</strong><span class="badge done">OK</span></div>
+              <div class="validation-row"><strong>Importe factura: €156.163,71 · proveedor Pocargil</strong><span class="badge done">OK</span></div>
+              <div class="validation-row"><strong>Archivo final: Transbull_EXP-2024-0849_DUA_Pocargil.csv</strong><span class="badge process">listo</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel"><div class="section-head"><div><h3>Historial de exportaciones</h3><p>Registro de archivos generados durante la presentación.</p></div></div><div id="exportHistory" class="empty">Aún no se han generado descargas en esta sesión.</div></div>
       </div>`;
+      animateKPIs();
       $("[data-export-main]").addEventListener("click", exportCSV);
+      $("[data-export-flow]").addEventListener("click", runExportPackage);
       renderExportHistory();
     }
     function renderExportHistory(){
@@ -571,7 +628,44 @@
       if (!box) return;
       if (!state.exports.length){box.className="empty"; box.textContent="Aún no se han generado descargas en esta sesión."; return;}
       box.className = "";
-      box.innerHTML = `<table><thead><tr><th>Archivo</th><th>Hora</th><th>Estado</th></tr></thead><tbody>${state.exports.map(x => `<tr><td>${x.name}</td><td>${x.time}</td><td><span class="badge done">Generado</span></td></tr>`).join("")}</tbody></table>`;
+      box.innerHTML = `<table><thead><tr><th>Archivo</th><th>Hora España</th><th>Estado</th></tr></thead><tbody>${state.exports.map(x => `<tr><td>${x.name}</td><td>${x.time}</td><td><span class="badge done">Generado</span></td></tr>`).join("")}</tbody></table>`;
+    }
+    function csvPreview(){
+      const rows = [
+        ["Expediente","EXP-2024-0849"],
+        ["Cliente","Grupo Inditex / Zara"],
+        ["Fecha España",spainDate()],
+        ["Proveedor","Confection Pocargil SARL"],
+        [],
+        ["Partida arancelaria","Bultos / peso neto","Importe factura"],
+        ...summary.slice(0,4),
+        ["...","...","..."]
+      ];
+      return rows.map(r => r.map(v => `"${String(v ?? "")}"`).join(";")).join("<br>");
+    }
+    async function runExportPackage(){
+      const steps = $$("[data-export-step]");
+      $("#exportLog").textContent = "Iniciando generación del paquete DUA...\\n";
+      for (const [i, step] of steps.entries()){
+        steps.forEach((node,j) => {
+          node.classList.toggle("active", j === i);
+          node.classList.toggle("done", j < i);
+          const badge = node.querySelector(".badge");
+          badge.className = "badge " + (j < i ? "done" : j === i ? "process" : "pending");
+          badge.textContent = j < i ? "OK" : j === i ? "en curso" : "pendiente";
+        });
+        $("#exportLog").textContent += `✓ ${step.querySelector("strong").textContent}\\n`;
+        await wait(650);
+      }
+      steps.forEach(node => {
+        node.classList.remove("active");
+        node.classList.add("done");
+        const badge = node.querySelector(".badge");
+        badge.className = "badge done";
+        badge.textContent = "OK";
+      });
+      $("#exportLog").textContent += "Paquete listo. Descargando CSV para Excel...\\n";
+      exportCSV();
     }
     function renderConfig(){
       $("#configuracion").innerHTML = `<div class="grid two">
@@ -589,7 +683,7 @@
         const meta = [
           ["Expediente","EXP-2024-0849"],
           ["Cliente","Grupo Inditex / Zara"],
-          ["Fecha",new Date().toLocaleDateString("es-ES")],
+          ["Fecha España",spainDate()],
           ["Agente","Irma Gutiérrez"],
           ["Proveedor","Confection Pocargil SARL"],
           [],
@@ -605,7 +699,7 @@
         a.click();
         a.remove();
         URL.revokeObjectURL(a.href);
-        state.exports.unshift({name:a.download,time:new Date().toLocaleTimeString("es-ES")});
+        state.exports.unshift({name:a.download,time:spainTime()});
         renderExportHistory();
         showToast("CSV generado correctamente para Excel");
       }, 1000);
